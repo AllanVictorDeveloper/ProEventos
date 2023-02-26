@@ -41,7 +41,7 @@ namespace ProEventos.Api.Controllers
         }
 
         [HttpGet]
-        [Route("ListarEventosPorId")]
+        [Route("ListarEventosPorId/{id}")]
         public async Task<ActionResult> GetEventoByIdAsync(int id)
 
         {
@@ -62,7 +62,7 @@ namespace ProEventos.Api.Controllers
         }
 
         [HttpGet]
-        [Route("ListarEventosPorTema")]
+        [Route("ListarEventosPorTema/{tema}")]
         public async Task<ActionResult> GetAllEventosByTemaAsync(string tema)
 
         {
@@ -103,9 +103,23 @@ namespace ProEventos.Api.Controllers
         }
 
         [HttpPut]
-        public Evento Update()
+        [Route("AtualizarEvento/{id}")]
+        public ActionResult Update(Evento evento, int id)
         {
-            return null;
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
+
+                _appEvento.AtualizarEvento(evento, id);
+
+                return Ok(evento);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                     $"Erro ao tentar atualizar eventos: {ex.Message}");
+            }
         }
 
         [HttpDelete]

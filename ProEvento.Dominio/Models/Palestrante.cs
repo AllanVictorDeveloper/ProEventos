@@ -6,7 +6,7 @@ namespace ProEvento.Dominio.Models
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-
+            
         public string MiniCurriculo { get; set; }
 
         public string ImagemURL { get; set; }

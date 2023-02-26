@@ -3,6 +3,7 @@ using ProEvento.Aplicacao.Interfaces.Servicos;
 using ProEvento.Dominio.Interfaces.Servicos;
 using ProEventos.Domain.Models;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace ProEvento.Aplicacao.Servicos
@@ -14,6 +15,27 @@ namespace ProEvento.Aplicacao.Servicos
         public AppEvento(IServicoEvento servicoEvento) : base(servicoEvento)
         {
             _servicoEvento = servicoEvento;
+        }
+
+        public async Task<Evento> AtualizarEvento(Evento evento, int id)
+        {
+            try
+            {
+                var eventoListado = await _servicoEvento.GetEventoByIdAsync(id, true);
+
+                if (eventoListado == null)
+                    return null;
+
+                _servicoEvento.Update(evento);
+
+                return evento;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         public async Task<Evento[]> GetAllEventosAsync(bool includePalestrantes = false)

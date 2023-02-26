@@ -16,6 +16,7 @@ namespace ProEvento.Infraestrutura.Repositorio
 
         public T Add(T objeto)
         {
+            
             _proEventoContext.Set<T>().Add(objeto);
             _proEventoContext.SaveChanges();
             return objeto;
@@ -23,6 +24,7 @@ namespace ProEvento.Infraestrutura.Repositorio
 
         public T Update(T objeto)
         {
+            _proEventoContext.Attach(objeto);
             _proEventoContext.Set<T>().Update(objeto);
             _proEventoContext.SaveChanges();
             return objeto;
