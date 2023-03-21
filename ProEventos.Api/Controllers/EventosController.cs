@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProEvento.Aplicacao.Dto;
 using ProEvento.Aplicacao.Interfaces.Servicos;
-using ProEventos.Api.Dto;
 using ProEventos.Domain.Models;
 using System;
 using System.Threading.Tasks;
@@ -104,7 +104,7 @@ namespace ProEventos.Api.Controllers
 
         [HttpPut]
         [Route("AtualizarEvento/{id}")]
-        public ActionResult Update(Evento evento, int id)
+        public ActionResult Update(EventoRequest evento, int id)
         {
             try
             {
