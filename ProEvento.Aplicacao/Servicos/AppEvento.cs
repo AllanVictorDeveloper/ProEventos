@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using ProEvento.Aplicacao.Dto;
 using ProEvento.Aplicacao.Interfaces.Servicos;
 using ProEvento.Dominio.Interfaces.Servicos;
@@ -19,22 +20,45 @@ namespace ProEvento.Aplicacao.Servicos
             _mapper = mapper;
         }
 
-        public async Task<EventoResponse> AtualizarEvento(EventoRequest evento, int id)
+        public async Task<EventoResponse> AdicionarEvento(EventoRequest eventoRequest)
         {
             try
             {
-                var eventoListado = await _servicoEvento.GetEventoByIdAsync(id, true);
+                var evento = _mapper.Map<Evento>(eventoRequest);
 
-                var eventoRetorno = _mapper.Map<EventoResponse>(eventoListado);
+                _servicoEvento.Add(evento);
+
+                if (await _servicoEvento.SaveChangesAsync())
+                {
+                    var eventoRetorno = await _servicoEvento.GetEventoByIdAsync(evento.Id, false);
+                    return _mapper.Map<EventoResponse>(eventoRetorno);
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<EventoResponse> AtualizarEvento(EventoRequest evento)
+        {
+            try
+            {
+                var eventoListado = await _servicoEvento.GetEventoByIdAsync(evento.Id, true);
 
                 var EventoAdd = _mapper.Map<Evento>(evento);
 
-                if (eventoRetorno == null)
-                    return null;
-
                 _servicoEvento.Update(EventoAdd);
 
-                return eventoRetorno;
+                if (await _servicoEvento.SaveChangesAsync())
+                {
+                    var eventoRetorno = await _servicoEvento.GetEventoByIdAsync(EventoAdd.Id, false);
+                    return _mapper.Map<EventoResponse>(eventoRetorno);
+                }
+
+                return null;
             }
             catch (Exception ex)
             {

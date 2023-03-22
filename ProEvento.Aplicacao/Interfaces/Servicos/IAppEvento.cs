@@ -16,7 +16,9 @@ namespace ProEvento.Aplicacao.Interfaces.Servicos
 
         Task<EventoResponse> GetEventoByIdAsync(int eventoId, bool includePalestrantes);
 
-        Task<EventoResponse> AtualizarEvento(EventoRequest evento, int id);
+        Task<EventoResponse> AtualizarEvento(EventoRequest evento);
+
+        Task<EventoResponse> AdicionarEvento(EventoRequest eventoRequest);
 
     }
 }

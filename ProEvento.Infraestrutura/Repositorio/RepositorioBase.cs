@@ -24,7 +24,7 @@ namespace ProEvento.Infraestrutura.Repositorio
 
         public T Update(T objeto)
         {
-            _proEventoContext.Attach(objeto);
+            //_proEventoContext.Attach(objeto);
             _proEventoContext.Set<T>().Update(objeto);
             _proEventoContext.SaveChanges();
             return objeto;

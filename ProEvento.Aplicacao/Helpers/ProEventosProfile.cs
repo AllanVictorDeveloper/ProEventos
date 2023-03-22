@@ -8,7 +8,8 @@ namespace ProEvento.Aplicacao.Helpers
     {
         public ProEventosProfile()
         {
-            CreateMap<Evento, EventoResponse>();
+            CreateMap<Evento, EventoRequest>().ReverseMap();
+            CreateMap<Evento, EventoResponse>().ReverseMap();
         }
     }
 }

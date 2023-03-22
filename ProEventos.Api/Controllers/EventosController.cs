@@ -84,14 +84,17 @@ namespace ProEventos.Api.Controllers
 
         [HttpPost]
         [Route("AdicionarEvento")]
-        public ActionResult<EventoResponse> AdicionarEvento(Evento evento)
+        public ActionResult<EventoResponse> AdicionarEvento(EventoRequest evento)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                _appEvento.Add(evento);
+                var retorno = _appEvento.AdicionarEvento(evento);
+
+                if (retorno == null)
+                    BadRequest("Não foi possivel adicionar evento.");
 
                 return Ok(evento);
             }
@@ -103,15 +106,15 @@ namespace ProEventos.Api.Controllers
         }
 
         [HttpPut]
-        [Route("AtualizarEvento/{id}")]
-        public ActionResult Update(EventoRequest evento, int id)
+        [Route("AtualizarEvento")]
+        public ActionResult Update(EventoRequest evento)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                _appEvento.AtualizarEvento(evento, id);
+                _appEvento.AtualizarEvento(evento);
 
                 return Ok(evento);
             }
