@@ -19,10 +19,10 @@ namespace ProEvento.Aplicacao.Dto
 
         public string Email { get; set; }
 
-        //public List<Lote>? Lotes { get; set; }
+        public List<LoteRequest>? Lotes { get; set; }
 
-        //public List<RedeSocial>? RedesSociais { get; set; }
+        public List<RedeSocialRequest>? RedesSociais { get; set; }
 
-        //public List<PalestranteEvento>? PalestrantesEventos { get; set; }
+        public List<PalestranteEventoRequest>? PalestrantesEventos { get; set; }
     }
 }
