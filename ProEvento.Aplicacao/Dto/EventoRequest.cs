@@ -1,6 +1,7 @@
 ﻿using ProEvento.Dominio.Models;
 using System.Collections.Generic;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProEvento.Aplicacao.Dto
 {
@@ -10,6 +11,7 @@ namespace ProEvento.Aplicacao.Dto
         public string Local { get; set; }
         public string DataEvento { get; set; }
 
+        [Required(ErrorMessage ="O campo {0} é obrigatório.")]
         public string Tema { get; set; }
         public int QtdPessoas { get; set; }
 
@@ -17,6 +19,7 @@ namespace ProEvento.Aplicacao.Dto
 
         public string Telefone { get; set; }
 
+        [EmailAddress(ErrorMessage = "O campo {0} precisa ser um e-mail válido.")]
         public string Email { get; set; }
 
         public List<LoteRequest>? Lotes { get; set; }

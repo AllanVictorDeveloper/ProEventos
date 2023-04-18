@@ -21,7 +21,7 @@ namespace ProEventos.Api.Controllers
 
         [HttpGet]
         [Route("ListarTodosEventos")]
-        public async Task<ActionResult<Evento>> GetAllEventosAsync()
+        public async Task<ActionResult<EventoResponse>> GetAllEventosAsync()
 
         {
             try
