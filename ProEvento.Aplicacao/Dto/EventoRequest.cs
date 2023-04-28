@@ -9,7 +9,7 @@ namespace ProEvento.Aplicacao.Dto
     {
         public int Id { get; set; }
         public string Local { get; set; }
-        public string DataEvento { get; set; }
+        public DateTime? DataEvento { get; set; }
 
         [Required(ErrorMessage ="O campo {0} é obrigatório.")]
         public string Tema { get; set; }

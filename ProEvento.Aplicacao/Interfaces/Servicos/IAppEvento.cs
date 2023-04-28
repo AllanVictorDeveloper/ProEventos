@@ -20,5 +20,7 @@ namespace ProEvento.Aplicacao.Interfaces.Servicos
 
         Task<EventoResponse> AdicionarEvento(EventoRequest eventoRequest);
 
+        Task<string> DeletarEvento(int id);
+
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProEvento.Aplicacao.Dto;
 using ProEvento.Aplicacao.Interfaces.Servicos;
-using ProEventos.Domain.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -116,7 +115,7 @@ namespace ProEventos.Api.Controllers
 
                 _appEvento.AtualizarEvento(evento);
 
-                return Ok(evento);
+                return this.StatusCode(StatusCodes.Status200OK, evento);
             }
             catch (Exception ex)
             {
@@ -126,9 +125,27 @@ namespace ProEventos.Api.Controllers
         }
 
         [HttpDelete]
-        public Evento remove()
+        [Route("DeletarEvento/{id}")]
+        public ActionResult remove(int id)
         {
-            return null;
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest();
+
+                var retorno = _appEvento.DeletarEvento(id);
+
+                return Ok(new ObjectResult(new { mensagem = "O evento foi deletado com sucesso.", status = 200 }));
+
+                //return this.StatusCode(200, new ObjectResult(new { mensagem = "O evento foi deletado com sucesso" }));
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                     $"Erro ao tentar deletar eventos: {ex.Message}");
+
+                //return BadRequest(new ObjectResult(new { mensagem = "Não foi possivel deletar o evento.", status = 400 }));
+            }
         }
     }
 }

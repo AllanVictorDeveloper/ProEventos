@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
 using ProEvento.Aplicacao.Dto;
 using ProEvento.Aplicacao.Interfaces.Servicos;
 using ProEvento.Dominio.Interfaces.Servicos;
@@ -28,13 +27,8 @@ namespace ProEvento.Aplicacao.Servicos
 
                 _servicoEvento.Add(evento);
 
-                if (await _servicoEvento.SaveChangesAsync())
-                {
-                    var eventoRetorno = await _servicoEvento.GetEventoByIdAsync(evento.Id, false);
-                    return _mapper.Map<EventoResponse>(eventoRetorno);
-                }
-
-                return null;
+                var eventoRetorno = await _servicoEvento.GetEventoByIdAsync(evento.Id, false);
+                return _mapper.Map<EventoResponse>(eventoRetorno);
             }
             catch (Exception ex)
             {
@@ -59,6 +53,27 @@ namespace ProEvento.Aplicacao.Servicos
                 }
 
                 return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> DeletarEvento(int id)
+        {
+            try
+            {
+                var eventoListado = await _servicoEvento.GetEventoByIdAsync(id, false);
+
+                _servicoEvento.Delete(eventoListado);
+
+                if (await _servicoEvento.SaveChangesAsync())
+                {
+                    return "Deletado";
+                }
+
+                return "Deletado";
             }
             catch (Exception ex)
             {
