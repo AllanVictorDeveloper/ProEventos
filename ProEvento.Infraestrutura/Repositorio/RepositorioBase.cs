@@ -38,6 +38,7 @@ namespace ProEvento.Infraestrutura.Repositorio
             using var trans = _proEventoContext.Database.BeginTransaction();
             try
             {
+                //_proEventoContext.Update(objeto);
                 _proEventoContext.Entry(objeto).State = EntityState.Modified;
 
                 _proEventoContext.SaveChanges();
@@ -51,15 +52,16 @@ namespace ProEvento.Infraestrutura.Repositorio
             }
         }
 
-        public void Delete(T objeto)
+        public T Delete(T objeto)
         {
             using var trans = _proEventoContext.Database.BeginTransaction();
             try
             {
-                _proEventoContext.Entry(objeto).State = EntityState.Deleted;
+                _proEventoContext.Remove(objeto);
 
                 _proEventoContext.SaveChanges();
                 trans.Commit();
+                return objeto;
             }
             catch (Exception err)
             {
@@ -76,7 +78,9 @@ namespace ProEvento.Infraestrutura.Repositorio
 
         public async Task<bool> SaveChangesAsync()
         {
-            return await _proEventoContext.SaveChangesAsync() > 0;
+            var retorno = _proEventoContext.SaveChanges() > 0;
+
+            return retorno;
         }
 
         public void Dispose()

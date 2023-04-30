@@ -12,7 +12,7 @@ namespace ProEvento.Dominio.Servicos
 
         public ServicoBase(IRepositorioBase<T> repositorioBase)
         {
-            _repositorioBase = repositorioBase;
+            this._repositorioBase = repositorioBase;
         }
 
         public T Add(T objeto)

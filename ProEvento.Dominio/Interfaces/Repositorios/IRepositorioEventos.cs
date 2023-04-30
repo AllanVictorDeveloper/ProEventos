@@ -9,6 +9,6 @@ namespace ProEvento.Dominio.Interfaces.Repositorios
 
         Task<Evento[]> GetAllEventosAsync(bool includePalestrantes);
 
-        Task<Evento> GetEventoByIdAsync(int eventoId, bool includePalestrantes);
+        Evento GetEventoByIdAsync(int eventoId, bool includePalestrantes);
     }
 }

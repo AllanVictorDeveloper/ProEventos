@@ -1,10 +1,6 @@
 ﻿using ProEvento.Dominio.Interfaces.Repositorios;
 using ProEvento.Dominio.Interfaces.Servicos;
 using ProEventos.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProEvento.Dominio.Servicos
@@ -12,6 +8,7 @@ namespace ProEvento.Dominio.Servicos
     public class ServicoEvento : ServicoBase<Evento>, IServicoEvento
     {
         private readonly IRepositorioEventos _repositorioEventos;
+
         public ServicoEvento(IRepositorioEventos repositorioEventos) : base(repositorioEventos)
         {
             _repositorioEventos = repositorioEventos;
@@ -27,9 +24,10 @@ namespace ProEvento.Dominio.Servicos
             return await _repositorioEventos.GetAllEventosByTemaAsync(tema, includePalestrantes);
         }
 
-        public async Task<Evento> GetEventoByIdAsync(int eventoId, bool includePalestrantes = false)
+        public Evento GetEventoByIdAsync(int eventoId, bool includePalestrantes = false)
         {
-            return await _repositorioEventos.GetEventoByIdAsync(eventoId, includePalestrantes);
+            var evento = _repositorioEventos.GetEventoByIdAsync(eventoId, includePalestrantes);
+            return evento;
         }
     }
 }

@@ -46,21 +46,33 @@ namespace ProEvento.Infraestrutura.Repositorio
             return await query.ToArrayAsync();
         }
 
-        public async Task<Evento> GetEventoByIdAsync(int eventoId, bool includePalestrantes = false)
+        public Evento GetEventoByIdAsync(int eventoId, bool includePalestrantes = false)
         {
-            IQueryable<Evento> query = _proEventoContext.Eventos
+            //IQueryable<Evento> query = _proEventoContext.Eventos
+            //    .Include(e => e.Lotes)
+            //    .Include(e => e.RedesSociais)
+            //    .OrderBy(e => e.Id)
+            //    .Where(e => e.Id == eventoId);
+
+            //if (includePalestrantes)
+            //{
+            //    query.Include(e => e.PalestrantesEventos)
+            //        .ThenInclude(pe => pe.Palestrante);
+            //}
+
+            var evento = _proEventoContext.Eventos
                 .Include(e => e.Lotes)
                 .Include(e => e.RedesSociais)
                 .OrderBy(e => e.Id)
-                .Where(e => e.Id == eventoId);
+                .Where(e => e.Id == eventoId).AsNoTracking();
 
             if (includePalestrantes)
             {
-                query.Include(e => e.PalestrantesEventos)
+                evento.Include(e => e.PalestrantesEventos)
                     .ThenInclude(pe => pe.Palestrante);
             }
 
-            return await query.FirstOrDefaultAsync();
+            return evento.FirstOrDefault();
         }
     }
 }

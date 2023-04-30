@@ -92,35 +92,36 @@ namespace ProEventos.Api.Controllers
 
                 var retorno = _appEvento.AdicionarEvento(evento);
 
-                if (retorno == null)
-                    BadRequest("Não foi possivel adicionar evento.");
+                if (retorno.Result == null)
+                    BadRequest(new { mensagem = "Não foi possivel adicionar evento." });
 
-                return Ok(evento);
+                return Ok(new { mensagem = "Evento adicionado com sucesso" });
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                     $"Erro ao tentar salvar eventos: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, new { ex.Message });
             }
         }
 
-        [HttpPut]
-        [Route("AtualizarEvento")]
-        public ActionResult Update(EventoRequest evento)
+        [HttpPost]
+        [Route("AtualizarEvento/{id}")]
+        public ActionResult<EventoResponse> Update(int id, [FromBody] EventoRequest evento)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
 
-                _appEvento.AtualizarEvento(evento);
+                var eventoAdd = _appEvento.AtualizarEvento(id, evento);
 
-                return this.StatusCode(StatusCodes.Status200OK, evento);
+                if (eventoAdd.Result == null)
+                    return BadRequest(new { mensagem = "Não foi possivel atualizar evento." });
+
+                return Ok(new { mensagem = "O evento foi atualizado com sucesso.", status = 200 });
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                     $"Erro ao tentar atualizar eventos: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, new { ex.Message });
             }
         }
 
@@ -135,14 +136,16 @@ namespace ProEventos.Api.Controllers
 
                 var retorno = _appEvento.DeletarEvento(id);
 
-                return Ok(new ObjectResult(new { mensagem = "O evento foi deletado com sucesso.", status = 200 }));
+                if (retorno.Result != "Deletado")
+                    return BadRequest(new { mensagem = "Não foi possivel excluir o evento, tente novamente." });
+
+                return Ok(new { mensagem = "O evento foi deletado com sucesso.", status = 200 });
 
                 //return this.StatusCode(200, new ObjectResult(new { mensagem = "O evento foi deletado com sucesso" }));
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                     $"Erro ao tentar deletar eventos: {ex.Message}");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, new { ex.Message });
 
                 //return BadRequest(new ObjectResult(new { mensagem = "Não foi possivel deletar o evento.", status = 400 }));
             }

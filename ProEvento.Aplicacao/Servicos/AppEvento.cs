@@ -15,7 +15,7 @@ namespace ProEvento.Aplicacao.Servicos
 
         public AppEvento(IServicoEvento servicoEvento, IMapper mapper) : base(servicoEvento)
         {
-            _servicoEvento = servicoEvento;
+            this._servicoEvento = servicoEvento;
             _mapper = mapper;
         }
 
@@ -25,10 +25,13 @@ namespace ProEvento.Aplicacao.Servicos
             {
                 var evento = _mapper.Map<Evento>(eventoRequest);
 
-                _servicoEvento.Add(evento);
+                var eventoAdicionado = _servicoEvento.Add(evento);
 
-                var eventoRetorno = await _servicoEvento.GetEventoByIdAsync(evento.Id, false);
-                return _mapper.Map<EventoResponse>(eventoRetorno);
+                //var eventoRetorno = await _servicoEvento.GetEventoByIdAsync(evento.Id, false);
+
+                var eventoResponse = _mapper.Map<EventoResponse>(eventoAdicionado);
+
+                return eventoResponse;
             }
             catch (Exception ex)
             {
@@ -36,20 +39,28 @@ namespace ProEvento.Aplicacao.Servicos
             }
         }
 
-        public async Task<EventoResponse> AtualizarEvento(EventoRequest evento)
+        public async Task<EventoResponse> AtualizarEvento(int id, EventoRequest evento)
         {
             try
             {
-                var eventoListado = await _servicoEvento.GetEventoByIdAsync(evento.Id, true);
+                var eventoListado = _servicoEvento.GetEventoByIdAsync(id, true);
 
-                var EventoAdd = _mapper.Map<Evento>(evento);
+                eventoListado.Id = id;
+                eventoListado.Local = evento.Local;
+                eventoListado.DataEvento = evento.DataEvento;
+                eventoListado.Email = evento.Email;
+                eventoListado.ImagemUrl = evento.ImagemUrl;
+                eventoListado.QtdPessoas = evento.QtdPessoas;
+                eventoListado.Tema = evento.Tema;
+                eventoListado.Telefone = evento.Telefone;
 
-                _servicoEvento.Update(EventoAdd);
+                var eventoAdd = _servicoEvento.Update(eventoListado);
 
-                if (await _servicoEvento.SaveChangesAsync())
+                if (eventoAdd != null)
                 {
-                    var eventoRetorno = await _servicoEvento.GetEventoByIdAsync(EventoAdd.Id, false);
-                    return _mapper.Map<EventoResponse>(eventoRetorno);
+                    var eventoRetorno = _servicoEvento.GetEventoByIdAsync(eventoAdd.Id, false);
+                    var eventoMapper = _mapper.Map<EventoResponse>(eventoRetorno);
+                    return eventoMapper;
                 }
 
                 return null;
@@ -64,16 +75,15 @@ namespace ProEvento.Aplicacao.Servicos
         {
             try
             {
-                var eventoListado = await _servicoEvento.GetEventoByIdAsync(id, false);
+                var eventoListado = _servicoEvento.GetEventoByIdAsync(id, false);
 
-                _servicoEvento.Delete(eventoListado);
-
-                if (await _servicoEvento.SaveChangesAsync())
+                if (eventoListado != null)
                 {
+                    _servicoEvento.Delete(eventoListado);
                     return "Deletado";
                 }
 
-                return "Deletado";
+                return null;
             }
             catch (Exception ex)
             {
@@ -119,7 +129,7 @@ namespace ProEvento.Aplicacao.Servicos
         {
             try
             {
-                var evento = await _servicoEvento.GetEventoByIdAsync(eventoId, includePalestrantes);
+                var evento = _servicoEvento.GetEventoByIdAsync(eventoId, includePalestrantes);
                 var eventoRetorno = _mapper.Map<EventoResponse>(evento);
 
                 if (eventoRetorno == null) return null;

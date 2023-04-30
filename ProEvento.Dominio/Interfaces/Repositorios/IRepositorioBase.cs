@@ -9,7 +9,7 @@ namespace ProEvento.Dominio.Interfaces.Repositorios
 
         T Update(T objeto);
 
-        void Delete(T objeto);
+        T Delete(T objeto);
 
         void DeleteRange<T>(T[] objeto);
 
