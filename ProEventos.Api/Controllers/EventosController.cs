@@ -95,7 +95,7 @@ namespace ProEventos.Api.Controllers
                 if (retorno.Result == null)
                     BadRequest(new { mensagem = "Não foi possivel adicionar evento." });
 
-                return Ok(new { mensagem = "Evento adicionado com sucesso" });
+                return Ok(new { mensagem = "Evento adicionado com sucesso", status = 200 });
             }
             catch (Exception ex)
             {
