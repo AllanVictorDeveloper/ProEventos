@@ -37,11 +37,19 @@ namespace ProEventos.Api
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            // App
             services.AddScoped<IAppEvento, AppEvento>();
+            services.AddScoped<IAppLote, AppLote>();
+
+            // Servico
             services.AddScoped<IServicoEvento, ServicoEvento>();
             services.AddScoped<IServicoPalestrantes, ServicoPalestrantes>();
-            services.AddScoped<IRepositorioEventos, RepositorioEventos>();
+            services.AddScoped<IServicoLote, ServicoLote>();
+
+            // Repositorio
+            services.AddScoped<IRepositorioEventos, RepositorioEvento>();
             services.AddScoped<IRepositorioPalestrantes, RepositorioPalestrantes>();
+            services.AddScoped<IRepositorioLote, RepositorioLote>();
 
             services.AddCors();
             services.AddSwaggerGen(c =>
