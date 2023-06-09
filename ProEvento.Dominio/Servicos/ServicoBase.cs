@@ -35,9 +35,9 @@ namespace ProEvento.Dominio.Servicos
             _repositorioBase.Dispose();
         }
 
-        public async  Task<bool> SaveChangesAsync()
+        public bool SaveChanges()
         {
-            return await _repositorioBase.SaveChangesAsync();
+            return  _repositorioBase.SaveChanges();
         }
 
         public T Update(T objeto)

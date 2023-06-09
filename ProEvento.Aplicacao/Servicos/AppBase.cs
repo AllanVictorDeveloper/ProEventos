@@ -50,11 +50,11 @@ namespace ProEvento.Aplicacao.Servicos
             }
         }
 
-        public Task<bool> SaveChangesAsync()
+        public bool SaveChangesAsync()
         {
             try
             {
-                return _servicoBase.SaveChangesAsync();
+                return _servicoBase.SaveChanges();
             }
             catch (Exception ex)
             {

@@ -9,7 +9,7 @@ namespace ProEvento.Aplicacao.Interfaces.Servicos
 
         Task<LoteResponse> GetLoteByIdsAsync(int eventoId, int loteId);
 
-        Task<LoteResponse> SaveLote(int eventoId, LoteResponse[] lotes);
+        Task<LoteResponse[]> SaveLote(int eventoId, LoteRequest[] lotes);
 
         Task<bool> DeletarLote(int eventoId, int loteId);
     }

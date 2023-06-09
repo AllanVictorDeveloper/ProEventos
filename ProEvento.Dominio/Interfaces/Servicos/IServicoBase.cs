@@ -16,6 +16,6 @@ namespace ProEvento.Dominio.Interfaces.Servicos
 
         void DeleteRange<T>(T[] objeto);
 
-        Task<bool> SaveChangesAsync();
+        bool SaveChanges();
     }
 }

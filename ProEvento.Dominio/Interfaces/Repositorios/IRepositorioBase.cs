@@ -13,6 +13,6 @@ namespace ProEvento.Dominio.Interfaces.Repositorios
 
         void DeleteRange<T>(T[] objeto);
 
-        Task<bool> SaveChangesAsync();
+        bool SaveChanges();
     }
 }

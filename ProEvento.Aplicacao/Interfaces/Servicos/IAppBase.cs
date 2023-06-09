@@ -12,6 +12,6 @@ namespace ProEvento.Aplicacao.Interfaces.Servicos
 
         void DeleteRange<T>(T[] objeto);
 
-        Task<bool> SaveChangesAsync();
+        bool SaveChangesAsync();
     }
 }

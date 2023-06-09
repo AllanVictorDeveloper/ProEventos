@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using ProEvento.Aplicacao.Helpers;
 using ProEvento.Aplicacao.Interfaces.Servicos;
 using ProEvento.Aplicacao.Servicos;
 using ProEvento.Dominio.Interfaces.Repositorios;
@@ -35,7 +36,7 @@ namespace ProEventos.Api
             services.AddDbContext<ProEventoContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Connection")));
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(typeof(ProEventosProfile));
 
             // App
             services.AddScoped<IAppEvento, AppEvento>();

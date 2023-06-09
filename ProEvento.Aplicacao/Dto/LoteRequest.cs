@@ -1,9 +1,5 @@
-﻿using ProEventos.Domain.Models;
+﻿using ProEvento.Dominio.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProEvento.Aplicacao.Dto
 {
@@ -21,5 +17,21 @@ namespace ProEvento.Aplicacao.Dto
 
         public int EventoId { get; set; }
         public EventoRequest? Evento { get; set; }
+
+        public Lote ToObject()
+        {
+            Lote obj = new Lote
+            {
+                Id = Id,
+                Nome = Nome,
+                Preco = Preco,
+                DataInicio = DataInicio,
+                DataFim = DataFim,
+                Quantidade = Quantidade,
+                EventoId = EventoId,
+            };
+
+            return obj;
+        }
     }
 }

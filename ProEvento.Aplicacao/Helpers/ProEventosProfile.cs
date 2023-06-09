@@ -12,6 +12,7 @@ namespace ProEvento.Aplicacao.Helpers
             CreateMap<Evento, EventoRequest>().ReverseMap();
             CreateMap<Evento, EventoResponse>().ReverseMap();
             CreateMap<Lote, LoteResponse>().ReverseMap();
+            CreateMap<Lote, LoteRequest>().ReverseMap();
         }
     }
 }

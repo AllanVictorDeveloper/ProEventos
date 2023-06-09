@@ -3,7 +3,9 @@ using ProEvento.Aplicacao.Dto;
 using ProEvento.Aplicacao.Interfaces.Servicos;
 using ProEvento.Dominio.Interfaces.Repositorios;
 using ProEvento.Dominio.Interfaces.Servicos;
+using ProEvento.Dominio.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProEvento.Aplicacao.Servicos
@@ -22,9 +24,60 @@ namespace ProEvento.Aplicacao.Servicos
             _repositorioLote = repositorioLote;
         }
 
-        public Task<LoteResponse> SaveLote(int eventoId, LoteResponse[] lotes)
+        public async Task AddLote(int eventoId, LoteRequest models)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var lote = _mapper.Map<Lote>(models);
+
+                lote.EventoId = eventoId;
+
+                _servicoLote.Add(lote);
+
+                _servicoLote.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<LoteResponse[]> SaveLote(int eventoId, LoteRequest[] models)
+        {
+            try
+            {
+                var lotes = await _servicoLote.GetLoteByEventoIdAsync(eventoId);
+                if (lotes == null)
+                    return null;
+
+                foreach (var model in models)
+                {
+                    if (model.Id == 0)
+                    {
+                        await AddLote(eventoId, model);
+                    }
+                    else
+                    {
+                        var lote = lotes.FirstOrDefault(lote => lote.Id == model.Id);
+
+                        model.EventoId = eventoId;
+
+                        _mapper.Map(model, lote);
+
+                        _servicoLote.Update(lote);
+
+                        _repositorioLote.SaveChanges();
+                    }
+                }
+
+                var loteRetorno = await _servicoLote.GetLoteByEventoIdAsync(eventoId);
+
+                return _mapper.Map<LoteResponse[]>(loteRetorno);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<bool> DeletarLote(int eventoId, int loteId)
@@ -36,8 +89,12 @@ namespace ProEvento.Aplicacao.Servicos
                 if (lote == null)
                     throw new Exception("Lote para delete não encontrado");
 
-                _repositorioLote.Delete(await lote);
-                return await _repositorioLote.SaveChangesAsync();
+                var retorno = _repositorioLote.Delete(await lote);
+
+                if (retorno == null)
+                    return false;
+
+                return true;
             }
             catch (Exception ex)
             {
@@ -51,7 +108,7 @@ namespace ProEvento.Aplicacao.Servicos
             {
                 var lotes = await _servicoLote.GetLoteByEventoIdAsync(eventoId);
 
-                if (lotes == null)
+                if (lotes.Length == 0)
                     return null;
 
                 var lotesResponse = _mapper.Map<LoteResponse[]>(lotes);

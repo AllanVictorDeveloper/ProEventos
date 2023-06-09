@@ -57,7 +57,7 @@ namespace ProEvento.Infraestrutura.Repositorio
             using var trans = _proEventoContext.Database.BeginTransaction();
             try
             {
-                _proEventoContext.Remove(objeto);
+                _proEventoContext.Set<T>().Remove(objeto);
 
                 _proEventoContext.SaveChanges();
                 trans.Commit();
@@ -76,9 +76,9 @@ namespace ProEvento.Infraestrutura.Repositorio
             _proEventoContext.SaveChanges();
         }
 
-        public async Task<bool> SaveChangesAsync()
+        public bool SaveChanges()
         {
-            var retorno = _proEventoContext.SaveChanges() > 0;
+            var retorno =  _proEventoContext.SaveChanges() > 0;
 
             return retorno;
         }

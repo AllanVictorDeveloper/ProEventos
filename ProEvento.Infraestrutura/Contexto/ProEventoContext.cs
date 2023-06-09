@@ -35,6 +35,12 @@ namespace ProEventos.Api.Data
                 .WithOne(rs => rs.Palestrante)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Lote>()
+                .Property(i => i.Id).UseIdentityColumn();
+
+            modelBuilder.Entity<Evento>()
+                .Property(i => i.Id).UseIdentityColumn();
+
         }
     }
 }
