@@ -30,7 +30,7 @@ ehthumbs_vista.db
 # Dump file
 *.stackdump
 
-*/appsettings.json
+*.launchSettingss.json
 
 # Folder config file
 [Dd]esktop.ini
