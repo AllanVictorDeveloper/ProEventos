@@ -10,6 +10,7 @@ namespace ProEvento.Aplicacao.Helpers
         public ProEventosProfile()
         {
             CreateMap<Evento, EventoRequest>().ReverseMap();
+            CreateMap<EventoResponse, EventoRequest>().ReverseMap();
             CreateMap<Evento, EventoResponse>().ReverseMap();
             CreateMap<Lote, LoteResponse>().ReverseMap();
             CreateMap<Lote, LoteRequest>().ReverseMap();

@@ -26,4 +26,8 @@
     <ProjectReference Include="..\ProEvento.Infraestrutura\ProEvento.Infraestrutura.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\images\" />
+  </ItemGroup>
+
 </Project>
