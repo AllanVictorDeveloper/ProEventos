@@ -135,12 +135,16 @@ namespace ProEventos.Api.Controllers
 
         [HttpDelete]
         [Route("DeletarEvento/{id}")]
-        public ActionResult DeletarEvento(int id)
+        public async Task<ActionResult> DeletarEvento(int id)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return BadRequest();
+
+                var evento = await _appEvento.GetEventoByIdAsync(id, true);
+
+                this.DeleteImagem(evento.ImagemUrl);
 
                 var retorno = _appEvento.DeletarEvento(id);
 

@@ -1,4 +1,5 @@
-﻿using ProEvento.Dominio.Models;
+﻿using ProEvento.Dominio.Identity;
+using ProEvento.Dominio.Models;
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +8,8 @@ namespace ProEventos.Domain.Models
     public class Evento
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public string Local { get; set; }
         public DateTime? DataEvento { get; set; }
 

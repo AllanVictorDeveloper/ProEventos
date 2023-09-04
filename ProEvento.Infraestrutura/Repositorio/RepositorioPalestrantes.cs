@@ -32,7 +32,7 @@ namespace ProEvento.Infraestrutura.Repositorio
             IQueryable<Palestrante> query = _proEventoContext.Palestrantes
                 .Include(p => p.RedesSocials)
                 .OrderBy(p => p.Id)
-                .Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
+                .Where(p => p.User.PrimeiroNome.ToLower().Contains(nome.ToLower()));
 
             if (includeEventos)
             {

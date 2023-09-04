@@ -1,12 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using ProEvento.Dominio.Identity;
 using ProEvento.Dominio.Models;
 using ProEventos.Domain.Models;
-using System;
-using System.Reflection.PortableExecutable;
 
 namespace ProEventos.Api.Data
 {
-    public class ProEventoContext : DbContext
+    public class ProEventoContext : IdentityDbContext<User, Role, int, 
+                                                        IdentityUserClaim<int>, IdentityUserRole<int>,
+                                                        IdentityUserLogin<int>, IdentityRoleClaim<int>, 
+                                                        IdentityUserToken<int>>
     {
         public ProEventoContext(DbContextOptions<ProEventoContext> options) : base(options)
         {
@@ -18,10 +22,8 @@ namespace ProEventos.Api.Data
         public DbSet<PalestranteEvento> PalestrantesEventos { get; set; }
         public DbSet<RedeSocial> RedesSociais { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<PalestranteEvento>()
                 .HasKey(PE => new { PE.EventoId, PE.PalestranteId });
 
@@ -40,7 +42,6 @@ namespace ProEventos.Api.Data
 
             modelBuilder.Entity<Evento>()
                 .Property(i => i.Id).UseIdentityColumn();
-
         }
     }
 }
