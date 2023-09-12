@@ -8,14 +8,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ProEvento.Aplicacao.Helpers;
-using ProEvento.Aplicacao.Interfaces.Servicos;
-using ProEvento.Aplicacao.Servicos;
-using ProEvento.Dominio.Interfaces.Repositorios;
-using ProEvento.Dominio.Interfaces.Servicos;
-using ProEvento.Dominio.Servicos;
-using ProEvento.Infraestrutura.Repositorio;
+using ProEvento.Infraestrutura.IoC;
 using ProEventos.Api.Data;
-using System;
 using System.IO;
 
 namespace ProEventos.Api
@@ -29,7 +23,6 @@ namespace ProEventos.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -39,21 +32,12 @@ namespace ProEventos.Api
             services.AddDbContext<ProEventoContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Connection")));
 
+            //services.AddIdentity<User, Role>()
+            //                .AddEntityFrameworkStores<ProEventoContext>();
+
             services.AddAutoMapper(typeof(ProEventosProfile));
 
-            // App
-            services.AddScoped<IAppEvento, AppEvento>();
-            services.AddScoped<IAppLote, AppLote>();
-
-            // Servico
-            services.AddScoped<IServicoEvento, ServicoEvento>();
-            services.AddScoped<IServicoPalestrantes, ServicoPalestrantes>();
-            services.AddScoped<IServicoLote, ServicoLote>();
-
-            // Repositorio
-            services.AddScoped<IRepositorioEventos, RepositorioEvento>();
-            services.AddScoped<IRepositorioPalestrantes, RepositorioPalestrantes>();
-            services.AddScoped<IRepositorioLote, RepositorioLote>();
+            services.RegistrarDI();
 
             services.AddCors();
             services.AddSwaggerGen(c =>

@@ -1,10 +1,6 @@
 ﻿using ProEvento.Dominio.Interfaces.Repositorios;
 using ProEvento.Dominio.Interfaces.Servicos;
 using ProEvento.Dominio.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProEvento.Dominio.Servicos
@@ -12,6 +8,7 @@ namespace ProEvento.Dominio.Servicos
     public class ServicoPalestrantes : ServicoBase<Palestrante>, IServicoPalestrantes
     {
         private readonly IRepositorioPalestrantes _repositorioPalestrantes;
+
         public ServicoPalestrantes(IRepositorioPalestrantes repositorioPalestrantes) : base(repositorioPalestrantes)
         {
             _repositorioPalestrantes = repositorioPalestrantes;

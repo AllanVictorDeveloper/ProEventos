@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProEvento.Aplicacao\ProEvento.Aplicacao.csproj" />
     <ProjectReference Include="..\ProEvento.Dominio\ProEvento.Dominio.csproj" />
   </ItemGroup>
 
